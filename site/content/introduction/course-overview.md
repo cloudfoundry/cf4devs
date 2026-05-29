@@ -33,7 +33,7 @@ We also use code blocks to show representative output from running commands. For
 /Users/steve/workspace
 ```
 
-**Variables**: In the instructions, we place variables inside of less than < and greater than > keys. You should supply your specific values in place of these blocks. For example, if you see <USERNAME> in a code block, you should replace it with your username.
+**Variables**: In the instructions, we place variables inside of less than < and greater than > keys. You should supply your specific values in place of these blocks. For example, if you see `<USERNAME>` in a code block, you should replace it with your username.
 
 ## Videos
 

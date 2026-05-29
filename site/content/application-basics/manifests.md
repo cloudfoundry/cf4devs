@@ -62,16 +62,18 @@ This reiterates the point made earlier in this section; passing parameters to th
 
 Manifests support the parameterization of values. For example, you likely want to use a different route for the development version of your app than for the production version. You could parameterize the `route` value and have it set on `push`. This allows you to use the same manifest for dev and production. 
 
-Variables are declared inside double parenthesis: i.e. `((my-variable))`. To demonstrate, let's parameterize the number of instances in our manifest by editing the file:
+Variables are declared inside double parenthesis: i.e. `((my-variable))`. To demonstrate, let's parameterize the number of instances in our manifest by editing the `static-app_manifest.yml` file:
 
 ```
 ---
 applications:
-- name: training-app
-  instances: ((instances))
-  memory: 64M
-  buildpacks:
-  - go_buildpack
+- name: static-app
+  ...
+  processes:
+  - type: web
+    instances: ((instances))
+    memory: 32M
+    ...
 ```
 
 We can then push with:

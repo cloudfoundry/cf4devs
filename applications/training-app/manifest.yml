@@ -5,3 +5,5 @@ applications:
   memory: 64M
   buildpacks:
   - go_buildpack
+  env:
+    GOPACKAGENAME: github.com/rscale-training/training-app
