@@ -18,7 +18,14 @@ Developers can bind a route service to any route. When a route is bound to a rou
 
 When the request arrives at the CF router for a second time, the router recognizes that the route service has already handled it, and so forwards it directly to the app.
 
-A route service can run inside or outside Cloud Foundry, so long as it either accepts the request by making a fresh request to the requested URL (or some other location), or rejects it. Route services offered through a service broker advertise themselves through the CF marketplace. Developers can then create instances of the service and bind it to their apps with the following commands:
+The router recognizes the returning request by the headers it added when it first sent the request to the route service: `X-CF-Forwarded-Url` (the originally requested URL), `X-CF-Proxy-Signature`, and `X-CF-Proxy-Metadata`. This creates a contract the route service must follow:
+
+* When forwarding the request **back to the original URL** (`X-CF-Forwarded-Url`), pass these three headers through unchanged.
+* When forwarding the request to **any other location**, strip all three headers first.
+
+If these headers reach a destination other than the one they were issued for, the router rejects the request with `400 Bad Request` (`X-Cf-RouterError: invalid_route_service_signature`). So forwarding to a different app is supported — just treat it as a fresh request that carries none of the `X-CF-*` route-service headers.
+
+A route service can run inside or outside Cloud Foundry, so long as it either accepts the request by making a fresh request to the requested URL (or some other location, following the header contract above), or rejects it. Route services offered through a service broker advertise themselves through the CF marketplace. Developers can then create instances of the service and bind it to their apps with the following commands:
 
 ```
 cf create-service BROKER-SERVICE-PLAN SERVICE-INSTANCE 
